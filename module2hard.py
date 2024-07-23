@@ -1,12 +1,11 @@
-def get_password(n):
-    result = ""
-    for i in range(1, n):
-        for j in range(i + 1 ,  n):
-            if  n % (i + j)  == 0:
-                result += str(i) + str(j)
-    return result
+def append_to_list(item, list_my=None):
+  if list_my is None:
+    list_my = []
+  list_my.append(item)
+  return list_my
 
+my_list = append_to_list(1)
+print(my_list)  # Вывод: [1]
 
-n = int(input("Введите число (от 3 до 20): "))
-password = get_password(n)
-print(f"Пароль для числа {n}: {password}")
+my_list = append_to_list(2, my_list)
+print(my_list)  # Вывод: [1, 2]
