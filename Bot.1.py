@@ -4,11 +4,12 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.types import ParseMode
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ParseMode
+
 
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token="")
+bot = Bot(token=")
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
@@ -19,19 +20,15 @@ class UserState(StatesGroup):
     weight = State()
 
 
-@dp.message_handler(text = ["Привет"])
-async def привет_massage(massage):
-    print("Привет , что бы начать нажмите /start")
-    await massage.answer("Привет , что бы начать нажмите /start")
+@dp.message_handler(commands=['start'], state=None)
+async def start(message: types.Message):
+    keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
+    buttons = ['Рассчитать', 'Информация']
+    keyboard.add(*[KeyboardButton(text) for text in buttons])
+    await message.answer("Выберите действие:", reply_markup=keyboard)
 
 
-
-@dp.message_handler(commands=['start'])
-async def start_massage(massage):
-    print("start massage")
-    await massage.answer("Првиет! Напиши слово Калории и начнем ")
-
-@dp.message_handler(text='Калории', state=None)
+@dp.message_handler(text='Рассчитать', state=None)
 async def set_age(message: types.Message):
     await message.answer('Введите свой возраст:')
     await UserState.age.set()
@@ -59,13 +56,16 @@ async def send_calories(message: types.Message, state: FSMContext):
     growth = int(data['growth'])
     weight = float(data['weight'])
 
-    # Упрощенная формула Миффлина-Сан Жеора для женщин (пример)
-    # Для мужчин формула немного другая.
-    calories = 655 + (9.6 * weight) + (1.85 * growth) - (4.7 * age)
 
+    calories = 655 + (9.6 * weight) + (1.85 * growth) - (4.7 * age)
 
     await message.answer(f"Ваша примерная норма калорий: {calories:.0f} ккал", parse_mode=ParseMode.MARKDOWN)
     await state.finish()
+
+
+@dp.message_handler(text='Информация', state=None)
+async def info(message: types.Message):
+    await message.answer("Здесь будет информация о расчете калорий.")
 
 
 async def main():
