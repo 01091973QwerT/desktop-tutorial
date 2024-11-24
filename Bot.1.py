@@ -8,7 +8,7 @@ from aiogram.types import ParseMode
 
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token="7503679104:AAHbS8DwfayIyqqp_2BWy7TRG4ddpsZWg-U")
+bot = Bot(token="")
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
