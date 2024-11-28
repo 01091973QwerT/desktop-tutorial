@@ -9,7 +9,7 @@ import asyncio
 
 from aiogram.utils import executor
 
-bot = Bot(token='7503679104:AAHbS8DwfayIyqqp_2BWy7TRG4ddpsZWg-U')
+bot = Bot(token=)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
 @dp.message_handler(commands=['start'])
