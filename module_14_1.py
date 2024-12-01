@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('not_telegram.db')
+conn = sqlite3.connect('database.db')
 cursor = conn.cursor()
 
 # Создаем таблицу, если она не существует
