@@ -1,23 +1,23 @@
-def send_email(message, recipient, sender="university.help@gmail.com"):
-  if "@" not in recipient or not recipient.endswith((".com", ".ru", ".net")):
-    print(f"Невозможно отправить письмо с адреса {sender} на адрес {recipient}")
-    return
+#uvicorn main:app --reload    Актвация
+from fastapi import FastAPI
 
-  if "@" not in sender or not sender.endswith((".com", ".ru", ".net")):
-    print(f"Невозможно отправить письмо с адреса {sender} на адрес {recipient}")
-    return
-
-  if sender == recipient:
-    print("Нельзя отправить письмо самому себе!")
-    return
-
-  if sender == "university.help@gmail.com":
-    print(f"Письмо успешно отправлено с адреса {sender} на адрес {recipient}.")
-  else:
-    print(f"НЕСТАНДАРТНЫЙ ОТПРАВИТЕЛЬ! Письмо отправлено с адреса {sender} на адрес {recipient}.")
+app = FastAPI()
 
 
-send_email('Это сообщение для проверки связи', 'vasyok1337@gmail.com')
-send_email('Вы видите это сообщение как лучший студент курса!', 'urban.fan@mail.ru', sender='urban.info@gmail.com')
-send_email('Пожалуйста, исправьте задание', 'urban.student@mail.ru', sender='urban.teacher@mail.uk')
-send_email('Напоминаю самому себе о вебинаре', 'urban.teacher@mail.ru', sender='urban.teacher@mail.ru')
+
+@app.get("/user/admin")
+async def admin() -> dict:
+    return {"message": "Вы вошли как администратор"}
+
+@app.get("/user/{user_id}")
+async def user_id(user_id: int) -> dict: # user_id автоматически преобразуется в целое число
+    return {"message": f"Вы вошли как пользователь № {user_id}"}
+
+@app.get("/user")
+async def user_info(username: str, age: int) -> dict: #username и age берутся из query params
+    return {"message": f"Информация о пользователе. Имя: {username}, Возраст: {age}"}
+
+@app.get("/")
+async def root() -> dict:
+    return {"message": "Главная страница"}
+
